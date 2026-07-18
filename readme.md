@@ -1,3 +1,6 @@
+disclaimer-I started working on this porject from 20 july but got the idea of sharing my jouney on 18 july.hence i am making             this repo today and whatever i will update whatever i code daily.
+          -No use of AI for writing any sort of code has been made.
+
 i will create an AI SAAS tool using PERN stack(posgtre SQL,express,react and node.js).
 it includes multiple ai tools like 
 1. article generator
