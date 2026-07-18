@@ -1,0 +1,22 @@
+/*this statement is imported from google font website */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import "tailwindcss";
+
+*{
+    font-family: "Outfit", sans-serif;
+}
+
+/* primary color */
+:root {
+  --color-primary: #1f6f78;
+}
+
+.reset-tw, .reset-tw * {
+  all: revert !important;
+}
+
+.cl-drawerRoot {
+  z-index: 1000;
+}
+
