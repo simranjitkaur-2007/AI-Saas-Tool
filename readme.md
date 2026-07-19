@@ -1,4 +1,4 @@
-disclaimer-I started working on this porject from 20 july but got the idea of sharing my jouney on 18 july.hence i am making             this repo today and whatever i will update whatever i code daily.
+disclaimer-I started working on this project from 20 july but got the idea of sharing my jouney on 18 july.hence i am making             this repo today and whatever i code, i will update it daily.
           -No use of AI for writing any sort of code has been made.
 
 i will create an AI SAAS tool using PERN stack(posgtre SQL,express,react and node.js).
