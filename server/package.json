@@ -1,0 +1,31 @@
+{
+  "name": "ai-saas-tool",
+  "version": "1.0.0",
+  "description": "i will create an AI SAAS tool using PERN stack(posgtre SQL,express,react and node.js). it includes multiple ai tools like  1. article generator 2. blog title 3. generate images 4. remove background 5. remove object 6. review resume",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "server": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@clerk/express": "^2.1.44",
+    "@neondatabase/serverless": "^1.1.0",
+    "axios": "^1.18.1",
+    "cloudinary": "^2.10.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "multer": "^2.2.0",
+    "openai": "^4.38.0",
+    "pdf-parse": "^2.4.5",
+    "react-hot-toast": "^2.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

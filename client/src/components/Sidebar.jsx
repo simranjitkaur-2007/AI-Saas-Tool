@@ -18,7 +18,7 @@ const navItems = [
   { to: "/ai/blog-titles", label: "Blog Titles", Icon: Hash },
   { to: "/ai/generate-images", label: "Generate Images", Icon: Image },
   { to: "/ai/remove-background", label: "Remove Background", Icon: Eraser },
-  { to: "/ai/remove-objects", label: "Remove Objects", Icon: Scissors },
+  { to: "/ai/remove-object", label: "Remove Objects", Icon: Scissors },
   { to: "/ai/review-resume", label: "Review Resume", Icon: FileText },
   { to: "/ai/community", label: "Community", Icon: Users },
 ];
@@ -29,7 +29,10 @@ function Sidebar({ sidebar, setSidebar }) {
 
   return (
     <div
-      className={`w-60 bg-white border-r border-gray-200 flex flex-col h-screen fixed top-0 left-0 z-50 transition-transform duration-300 ease-in-out ${sidebar ? "translate-x-0" : "max-sm:-translate-x-full"}`}
+  //md static helps to debug that overlapping of sidebar with main page.
+    className={`w-60 bg-white border-r border-gray-200 flex flex-col md:static fixed top-0 left-0 z-50 h-screen md:h-auto transition-transform duration-300 ease-in-out ${
+        sidebar ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+      }`}
     >
       <div className="my-7 w-full flex flex-col items-center flex-1 overflow-y-auto">
         {user && (

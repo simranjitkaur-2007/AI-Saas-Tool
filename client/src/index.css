@@ -1,15 +1,18 @@
 /*this statement is imported from google font website */
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary: #1f6f78;
+  --color-secondary: #0BB0D7;
+}
 
 *{
     font-family: "Outfit", sans-serif;
-}
-
-/* primary color */
-:root {
-  --color-primary: #1f6f78;
 }
 
 .reset-tw, .reset-tw * {

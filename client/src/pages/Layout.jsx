@@ -42,9 +42,8 @@ const Layout = () => {
       </div>
     </div>
   ) : (
-    <div classname="flex items-center justify-center h-screen">
+    <div className="flex items-center justify-center h-screen">
       <SignIn/>
-      <div/>
     </div>
   )
 }

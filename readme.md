@@ -34,3 +34,48 @@ then npm install react-router-dom (when we want to open another page without the
 
 npm install lucide-react (we can use icons in the proj)
 we will use tailwind css hence open vite+tailwind on chrome and follow the step to install it 
+
+BACKEND=>
+npm install express 
+dotenv cors axios cloudinary multer
+cors-to connect backend with any frontend.
+axios-to make api calls.
+cloudinary-to stroe the images
+multer-to upload the image
+
+
+
+npm install --save-dev nodemon
+
+
+we will add type=mdule here as default is commonjs but find out the reason?? in package.json
+
+terminal command to run backend
+npm install
+npm start
+
+
+
+neon-sql table
+CREATE TABLE creations(
+  id SERIAL PRIMARY KEY,
+  user_Id TEXT NOT NULL,
+  prompt TEXT NOT NULL,
+  content TEXT NOT NULL,
+  type TEXT NOT NULL,
+  publish BOOLEAN DEFAULT FALSE,
+  likes TEXT[] DEFAULT '{}',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+  )
+
+from clerk we will do express quickstart and get the api key from there
+  npm install @clerk/express
+
+
+  to generate image ,we used clipdropAI
+
+
+  connecting frontend with backend
+  npm install axiom
+  npm install react-hot-toast
