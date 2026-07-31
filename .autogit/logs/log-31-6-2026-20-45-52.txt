@@ -1,0 +1,25 @@
+-------------------- Auto-Git Log --------------------
+Fri Jul 31 2026 20:45:52 GMT+0530 (India Standard Time)
+------------------------------------------------------
+
+Modified files:
+* client/package-lock.json
+* client/package.json
+* client/src/App.jsx
+* client/src/index.css
+* client/src/pages/Dashboard.jsx
+* client/src/pages/WriteArticle.jsx
+* server/configs/db.js
+* server/controllers/aicontroller.js
+* server/controllers/userController.js
+* server/routes/aiRoutes.js
+* server/server.js
+
+
+Created files:
+
+
+Deleted files:
+
+
+Renamed files:
