@@ -6,7 +6,7 @@ import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
-const { PDFParse } = require("pdf-parse");
+const pdfParse = require("pdf-parse");
 
 const AI = new OpenAI({
   apiKey: process.env.GEMINI_API_KEY,
@@ -217,10 +217,7 @@ export const resumeReview = async (req, res) => {
       });
     }
     const dataBuffer = fs.readFileSync(resume.path);
-    const parser = new PDFParse({ verbosity: 0, data: dataBuffer });
-    await parser.load();
-    const parsedText = await parser.getText();
-    const pdfData = { text: parsedText.text };
+    const pdfData = await pdfParse(dataBuffer);
 
     const prompt = `Review the following resume and provide the constructive feedback on it strengths, weaknesses and areas for improvement. Resume Content:\n\n${pdfData.text}`;
 
