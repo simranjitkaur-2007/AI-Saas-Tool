@@ -1,4 +1,4 @@
-  {
+{
     "version": 2,
     "builds": [
         {
@@ -6,7 +6,10 @@
             "use": "@vercel/node",
             "config": {
                 "includeFiles": [
-                    "dist/**"
+                    "controllers/**",
+                    "routes/**",
+                    "configs/**",
+                    "middleware/**"
                 ]
             }
         }
