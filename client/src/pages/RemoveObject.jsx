@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Scissors, Sparkles } from "lucide-react";
 import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";

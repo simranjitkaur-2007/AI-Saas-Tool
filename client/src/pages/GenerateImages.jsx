@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Edit, Hash, Sparkles, Image } from "lucide-react";
+import { useState } from "react";
+import { Sparkles, Image } from "lucide-react";
 import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
 import toast from "react-hot-toast";
@@ -11,7 +11,7 @@ const GenerateImages = () => {
   
     const [selectedStyle,setSelectedStyle]=useState(imageStyle[0])
     const [input,setInput]=useState('')
-    const [publish,setPublish]=useState(false)
+    const [publish] = useState(false)
     const [loading, setLoading] = useState(false)
   const [content, setContent] = useState("")
   const { getToken } = useAuth()
@@ -59,7 +59,7 @@ const GenerateImages = () => {
             mt is margin
             with flex wrap, items automatically move to the next row when needed. */}
       <div className='mt-3 flex gap-3 flex-wrap sm:max-w-[90%]'>
-        {imageStyle.map((item, index) => (
+        {imageStyle.map((item) => (
           <button
             type='button'
             key={item}

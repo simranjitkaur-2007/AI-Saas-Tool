@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Sparkles, Gem } from "lucide-react";
-import { useAuth, useUser, Protect } from "@clerk/clerk-react";
+import { useAuth, Protect } from "@clerk/clerk-react";
 import CreationItem from "../components/CreationItem";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -9,12 +9,11 @@ import toast from "react-hot-toast";
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
 const Dashboard = () => {
-  const { user } = useUser();
   const [creations, setCreations] = useState([]);
   const [loading, setLoading] = useState(true);
   const { getToken } = useAuth();
 
-  const getDashboardData = async () => {
+  const getDashboardData = useCallback(async () => {
     try {
       setLoading(true);
       const token = await getToken();
@@ -31,11 +30,15 @@ const Dashboard = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [getToken]);
 
   useEffect(() => {
-    getDashboardData();
-  }, []);
+    const loadDashboard = async () => {
+      await getDashboardData();
+    };
+
+    loadDashboard();
+  }, [getDashboardData]);
 
   return (
     <div className='h-full overflow-y-scroll p-6'>
