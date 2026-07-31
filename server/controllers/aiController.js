@@ -6,7 +6,16 @@ import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
-const pdfParse = require("pdf-parse");
+
+// Lazy-load pdf-parse only when needed (inside resumeReview)
+// to avoid crashing all routes on Vercel due to @napi-rs/canvas dependency
+let pdfParse = null;
+function getPdfParse() {
+  if (!pdfParse) {
+    pdfParse = require("pdf-parse");
+  }
+  return pdfParse;
+}
 
 const AI = new OpenAI({
   apiKey: process.env.GEMINI_API_KEY,
@@ -217,7 +226,8 @@ export const resumeReview = async (req, res) => {
       });
     }
     const dataBuffer = fs.readFileSync(resume.path);
-    const pdfData = await pdfParse(dataBuffer);
+    const pdfParser = getPdfParse();
+    const pdfData = await pdfParser(dataBuffer);
 
     const prompt = `Review the following resume and provide the constructive feedback on it strengths, weaknesses and areas for improvement. Resume Content:\n\n${pdfData.text}`;
 
