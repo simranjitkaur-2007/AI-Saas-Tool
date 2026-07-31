@@ -16,11 +16,10 @@ import { Toaster } from 'react-hot-toast';
 
 const App = () => {
 
-  // FOR TESTING API THROUGH CONSOLE TOKEN
-  // const {getToken} = useAuth()
-  // useEffect(()=>{
-  //   getToken().then((token)=>console.log(token));
-  // },[])
+   const {getToken} = useAuth()
+   useEffect(()=>{
+     getToken().then((token)=>console.log(token));
+   },[])
 
 
 

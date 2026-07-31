@@ -102,9 +102,9 @@ const WriteArticle = () => {
             </div>
           </div>
         ) : (
-          <div className="mt-3 max-h-[500px] overflow-y-auto text-sm text-slate-600 whitespace-pre-wrap">
+          <div className="mt-3 max-h-[500px] overflow-y-auto text-sm text-slate-600">
             <div className='reset-tw'>
-            <Markdown> {content}</Markdown>
+              <Markdown>{String(content)}</Markdown>
             </div>
           </div>
         )}

@@ -26,16 +26,25 @@ export const generateArticle = async (req, res) => {
       });
     }
 
-    const response = await AI.chat.completions.create({
+   const response = await AI.chat.completions.create({
       model: "gemini-3.6-flash",
       messages: [
+        {
+          role: "system",
+          content: "You are a professional article writer. Always write complete, detailed articles that fully meet the requested word count. Use markdown formatting with proper headings (##), subheadings (###), bold text, bullet points, and paragraphs.",
+        },
         {
           role: "user",
           content: prompt,
         },
       ],
       temperature: 0.7,
-      max_tokens: length,
+      max_tokens: (length || 2000) + 500,
+      extra_body: {
+        google: {
+          thinking_config: { thinking_budget: 200 },
+        },
+      },
     });
     const content = response.choices[0].message.content;
 
@@ -52,15 +61,13 @@ export const generateArticle = async (req, res) => {
     res.json({ success: true, content });
   } catch (error) {
     console.log(error.message);
-    const errorMessage = error.response?.data?.error?.message || error.message || 'Unknown error';
-    res.json({ success: false, message: errorMessage });
+    res.json({ success: false, message: error.message });
   }
 };
-
-export const generateBlogTitles = async (req, res) => {
+export const generateBlogTile = async (req, res) => {
   try {
     const { userId } = req.auth();
-    const { prompt, length } = req.body;
+    const { prompt } = req.body;
     const plan = req.plan;
     const free_usage = req.free_usage;
     if (plan != "premium" && free_usage >= 10) {
@@ -72,14 +79,10 @@ export const generateBlogTitles = async (req, res) => {
 
     const response = await AI.chat.completions.create({
       model: "gemini-3.6-flash",
-      messages: [
-        {
-          role: "user",
-          content: prompt,
-        },
-      ],
+      messages: [{ role: "user", content: prompt }],
       temperature: 0.7,
-      max_tokens: length,
+      max_tokens: 100,
+      reasoning_effort: "low",
     });
     const content = response.choices[0].message.content;
 
@@ -96,47 +99,41 @@ export const generateBlogTitles = async (req, res) => {
     res.json({ success: true, content });
   } catch (error) {
     console.log(error.message);
-    const errorMessage = error.response?.data?.error?.message || error.message || 'Unknown error';
-    res.json({ success: false, message: errorMessage });
+    res.json({ success: false, message: error.message });
   }
 };
-
 export const generateImages = async (req, res) => {
   try {
     const { userId } = req.auth();
     const { prompt, publish } = req.body;
     const plan = req.plan;
-    
     if (plan != "premium") {
       return res.json({
         success: false,
-        message: "Limit reached. Upgrade to continue.",
+        message: "This feature is only available for pro subscriptions.",
       });
     }
-    const formData = new FormData();
-    formData.append('prompt', prompt);
-    const { data } = await axios.post('https://clipdrop-api.co/text-to-image/v1', formData, {
-      headers: { 'x-api-key': process.env.CLIPDROP_API_KEY },
-      responseType: 'arraybuffer',
+
+    const response = await AI.images.generate({
+      model: "imagen-3.0-generate-002",
+      prompt: prompt,
+      n: 1,
+      response_format: "b64_json",
     });
-    const base64Image = `data:image/png;base64,${Buffer.from(data, "binary").toString("base64")}`;
+
+    const base64Image = `data:image/png;base64,${response.data[0].b64_json}`;
 
     const { secure_url } = await cloudinary.uploader.upload(base64Image);
 
-    
     await sql` INSERT INTO creations (user_id, prompt, content, type, publish ) 
     VALUES (${userId}, ${prompt}, ${secure_url}, 'image', ${publish ?? false})`;
 
-     
-    res.json({ success: true, content:secure_url });
+    res.json({ success: true, content: secure_url });
   } catch (error) {
     console.log(error.message);
-    const errorMessage = error.response?.data?.error?.message || error.message || 'Unknown error';
-    res.json({ success: false, message: errorMessage });
+    res.json({ success: false, message: error.message });
   }
 };
-
-
 export const removeImageBackground = async (req, res) => {
   try {
     const { userId } = req.auth();
@@ -168,12 +165,11 @@ export const removeImageBackground = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
-
 export const removeImageObject = async (req, res) => {
   try {
     const { userId } = req.auth();
-    const image = req.file;
     const { object } = req.body;
+    const image = req.file;
     const plan = req.plan;
 
     if (plan != "premium") {
@@ -183,25 +179,25 @@ export const removeImageObject = async (req, res) => {
       });
     }
 
-    const { secure_url } = await cloudinary.uploader.upload(image.path, {
+    const { public_id } = await cloudinary.uploader.upload(image.path);
+    const imageUrl = cloudinary.url(public_id, {
       transformation: [
         {
-          effect: "gen_remove",
-          prompt: object,
+          effect: `gen_remove:prompt_${object}`,
         },
       ],
+      resource_type: "image",
     });
 
     await sql` INSERT INTO creations (user_id, prompt, content, type) 
-    VALUES (${userId}, ${`Remove object: ${object}`}, ${secure_url}, 'image')`;
+    VALUES (${userId}, ${`Removed ${object} from image`}, ${imageUrl}, 'image')`;
 
-    res.json({ success: true, content: secure_url });
+    res.json({ success: true, content: imageUrl });
   } catch (error) {
     console.log(error.message);
     res.json({ success: false, message: error.message });
   }
 };
-
 export const resumeReview = async (req, res) => {
   try {
     const { userId } = req.auth();

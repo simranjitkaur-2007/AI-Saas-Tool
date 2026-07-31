@@ -42,7 +42,7 @@ const Dashboard = () => {
       <div className='flex justify-start gap-4 flex-wrap'>
         {/* Total creations card */}
         <div className='flex justify-between items-center bg-white p-4 rounded-lg shadow-md w-64'>
-          <div className='text-slate-600'>
+          <div className='text-blue-600'>
             <p className='text-sm'>Total Creations</p>
             <h2 className='text-xl font-semibold'>{creations.length}</h2>
           </div>

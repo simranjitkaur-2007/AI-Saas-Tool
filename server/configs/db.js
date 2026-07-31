@@ -1,10 +1,4 @@
-import { neon } from '@neondatabase/serverless';
+import { neon } from '@neondatabase/serverless'
+const sql = neon(process.env.DATABASE);
 
-const connectionString = process.env.DATABASE_URL || process.env.DATABASE;
-if (!connectionString) {
-  throw new Error('No database connection string was provided to neon(). Set DATABASE_URL or DATABASE in .env');
-}
-
-const sql = neon(connectionString);
-export default sql;
-
+export default sql
