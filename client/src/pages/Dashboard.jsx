@@ -59,7 +59,7 @@ const Dashboard = () => {
               <Protect plan='Premium' fallback='Free'>Premium</Protect>
             </h2>
           </div>
-          <div className='w-10 h-10 rounded-lg bg-gradient-to-br from-[#518DCD] to-[#0BB0D7] text-white flex justify-center items-center'>
+          <div className='w-10 h-10 rounded-lg bg-gradient-to-br from-[#518DCD] to-[#518DCD] text-white flex justify-center items-center'>
             <Gem className='w-5 text-white' />
           </div>
         </div>

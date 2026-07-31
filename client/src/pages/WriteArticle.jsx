@@ -76,7 +76,7 @@ const WriteArticle = () => {
         <br />
         <button
           disabled={loading}
-          className="w-full flex justify-center items-center gap-2 bg-gradient-to-r from-primary to-secondary text-white px-4 py-2 mt-6 text-sm rounded-lg cursor-pointer"
+          className="w-full flex justify-center items-center gap-2 bg-gradient-to-r from-[#3588F2] to-[#0BB0D7] text-white px-4 py-2 mt-6 text-sm rounded-lg cursor-pointer"
         >
           {loading ? (
             <span className="w-4 h-4 my-1 rounded-full border-2 border-t-transparent animate-spin"></span>
@@ -91,7 +91,7 @@ const WriteArticle = () => {
 
       <div className="w-full max-w-lg p-4 bg-white rounded-lg border border-gray-200 min-h-96">
         <div className="flex items-center gap-3">
-          <Edit className="w-5 h-5 text-[#4A7AFF]" />
+          <Edit className="w-5 h-5 text-[#3588F2]" />
           <h1 className="text-xl font-semibold">Generated Article</h1>
         </div>
         {!content ? (

@@ -78,7 +78,7 @@ const RemoveObject = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full flex justify-center items-center gap-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4 py-2 text-sm rounded-lg cursor-pointer disabled:opacity-50"
+            className="w-full flex justify-center items-center gap-2 bg-gradient-to-r from-[#3588F2] to-[#0BB0D7] text-white px-4 py-2 text-sm rounded-lg cursor-pointer disabled:opacity-50"
           >
             {loading ? (
               <span className="w-4 h-4 my-1 rounded-full border-2 border-t-transparent border-white animate-spin"></span>

@@ -10,12 +10,12 @@ const CreationItem = ({ item }) => {
     >
       <div className='flex justify-between items-center gap-4'>
         <div>
-          <h2 className='text-lg font-semibold'>{item.prompt}</h2>
+          <h2 className='text-l'>{item.prompt}</h2>
           <p className='text-gray-500'>
             {item.type} - {new Date(item.created_at).toLocaleDateString()}
           </p>
         </div>
-        <button className='bg-[#696969] border border-[#ADD8E6] text-[#2F4F4F] px-4 py-1 rounded-full'>
+        <button className="px-4 py-1 rounded-full bg-slate-800 hover:bg-slate-900 text-white text-sm font-medium transition">
           {item.type}
         </button>
       </div>
