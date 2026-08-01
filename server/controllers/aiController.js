@@ -49,11 +49,6 @@ export const generateArticle = async (req, res) => {
       ],
       temperature: 0.7,
       max_tokens: (length || 2000) + 500,
-      extra_body: {
-        google: {
-          thinking_config: { thinking_budget: 200 },
-        },
-      },
     });
     const content = response.choices[0].message.content;
 
@@ -90,8 +85,7 @@ export const generateBlogTile = async (req, res) => {
       model: "gemini-3.6-flash",
       messages: [{ role: "user", content: prompt }],
       temperature: 0.7,
-      max_tokens: 100,
-      reasoning_effort: "low",
+      max_tokens: 200,
     });
     const content = response.choices[0].message.content;
 
@@ -128,6 +122,7 @@ export const generateImages = async (req, res) => {
       prompt: prompt,
       n: 1,
       response_format: "b64_json",
+      size: "1024x1024",
     });
 
     const base64Image = `data:image/png;base64,${response.data[0].b64_json}`;
