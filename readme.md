@@ -1,8 +1,6 @@
-# AI SaaS Tool ✨
+# AI SaaS Tool 
 
 A full-stack AI-powered SaaS platform built with the **PERN stack** (PostgreSQL, Express, React, Node.js). It brings together a suite of AI content tools — article writing, image generation, background/object removal, and resume review — behind a subscription-gated, authenticated experience.
-
-> This project is being built and documented as a daily learning journey. See the commit history for day-by-day progress.
 
 ## Features
 
@@ -159,8 +157,11 @@ ISC (see `server/package.json`). No license file has been added at the repositor
 
 ## Author
 
-[simranjitkaur-2007](https://github.com/simranjitkaur-2007)#content below is for my reference.
-disclaimer-I started working on this project from 20 july but got the idea of sharing my jouney on 18 july.hence i am making             this repo today and whatever i code, i will update it daily.
+[simranjitkaur-2007](https://github.com/simranjitkaur-2007)
+
+
+#content below is for my reference.
+disclaimer-I started working on this project from 15 june and deployed it on 31 july.
           -No use of AI for writing any sort of code has been made.
 
 i will create an AI SAAS tool using PERN stack(posgtre SQL,express,react and node.js).
