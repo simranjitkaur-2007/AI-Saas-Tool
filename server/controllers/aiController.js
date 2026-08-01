@@ -1,4 +1,4 @@
-import OpenAI from "openai";
+import { GoogleGenAI } from "@google/genai";
 import sql from "../configs/db.js";
 import { clerkClient } from "@clerk/express";
 import axios from "axios";
@@ -17,10 +17,7 @@ function getPdfParse() {
   return pdfParse;
 }
 
-const AI = new OpenAI({
-  apiKey: process.env.GEMINI_API_KEY,
-  baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/",
-});
+const AI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 export const generateArticle = async (req, res) => {
   try {
@@ -35,22 +32,17 @@ export const generateArticle = async (req, res) => {
       });
     }
 
-   const response = await AI.chat.completions.create({
+   const response = await AI.models.generateContent({
       model: "gemini-3.6-flash",
-      messages: [
-        {
-          role: "system",
-          content: "You are a professional article writer. Always write complete, detailed articles that fully meet the requested word count. Use markdown formatting with proper headings (##), subheadings (###), bold text, bullet points, and paragraphs.",
-        },
-        {
-          role: "user",
-          content: prompt,
-        },
-      ],
-      temperature: 0.7,
-      max_tokens: (length || 2000) + 500,
+      contents: prompt,
+      config: {
+        systemInstruction:
+          "You are a professional article writer. Always write complete, detailed articles that fully meet the requested word count. Use markdown formatting with proper headings (##), subheadings (###), bold text, bullet points, and paragraphs.",
+        temperature: 0.7,
+        maxOutputTokens: (length || 2000) + 500,
+      },
     });
-    const content = response.choices[0].message.content;
+    const content = response.text;
 
     await sql` INSERT INTO creations (user_id, prompt, content, type ) 
     VALUES (${userId}, ${prompt}, ${content}, 'article')`;
@@ -81,13 +73,15 @@ export const generateBlogTile = async (req, res) => {
       });
     }
 
-    const response = await AI.chat.completions.create({
+    const response = await AI.models.generateContent({
       model: "gemini-3.6-flash",
-      messages: [{ role: "user", content: prompt }],
-      temperature: 0.7,
-      max_tokens: 200,
+      contents: prompt,
+      config: {
+        temperature: 0.7,
+        maxOutputTokens: 200,
+      },
     });
-    const content = response.choices[0].message.content;
+    const content = response.text;
 
     await sql` INSERT INTO creations (user_id, prompt, content, type ) 
     VALUES (${userId}, ${prompt}, ${content}, 'blog-title')`;
@@ -117,15 +111,23 @@ export const generateImages = async (req, res) => {
       });
     }
 
-    const response = await AI.images.generate({
-      model: "imagen-3.0-generate-002",
-      prompt: prompt,
-      n: 1,
-      response_format: "b64_json",
-      size: "1024x1024",
+    const response = await AI.models.generateContent({
+      model: "gemini-2.5-flash-image",
+      contents: prompt,
+      config: {
+        responseModalities: ["TEXT", "IMAGE"],
+      },
     });
 
-    const base64Image = `data:image/png;base64,${response.data[0].b64_json}`;
+    const imagePart = response.candidates?.[0]?.content?.parts?.find(
+      (part) => part.inlineData
+    );
+
+    if (!imagePart) {
+      throw new Error("No image was returned by the model. Try a different prompt.");
+    }
+
+    const base64Image = `data:image/png;base64,${imagePart.inlineData.data}`;
 
     const { secure_url } = await cloudinary.uploader.upload(base64Image);
 
@@ -226,19 +228,16 @@ export const resumeReview = async (req, res) => {
 
     const prompt = `Review the following resume and provide the constructive feedback on it strengths, weaknesses and areas for improvement. Resume Content:\n\n${pdfData.text}`;
 
-    const response = await AI.chat.completions.create({
+    const response = await AI.models.generateContent({
       model: "gemini-3.6-flash",
-      messages: [
-        {
-          role: "user",
-          content: prompt,
-        },
-      ],
-      temperature: 0.7,
-      max_tokens: 1000,
-      reasoning_effort: "low",
+      contents: prompt,
+      config: {
+        temperature: 0.7,
+        maxOutputTokens: 1000,
+        thinkingConfig: { thinkingLevel: "low" },
+      },
     });
-    const content = response.choices[0].message.content;
+    const content = response.text;
 
     await sql` INSERT INTO creations (user_id, prompt, content, type) 
     VALUES (${userId}, 'Review the uploaded resume', ${content}, 'resume-review')`;
